@@ -55,20 +55,19 @@ class StreamSocket:
         self.sock.listen(5)
 
         conn, addr = self.sock.accept()
-        with conn:
-            try:
-                print(f'Connected by {addr}\n')
-                req = conn.recv(BUFFER)   
-                print('Received: ', req)
-                
-                print("\nSending>>>>>>>>>>>>>>")
-                conn.sendall(data)
-                print(data.decode())
-                print("<<<<<<<<<<<<<<<<")
-                
-            except socket.error as e:
-                print("Socket error: %s", e)
-            finally:
-                conn.close()
-                self.close_connection()
+        try:
+            print(f'Connected by {addr}\n')
+            req = conn.recv(BUFFER)   
+            print('Received: ', req)
+            
+            print("\nSending>>>>>>>>>>>>>>")
+            conn.sendall(data)
+            print(data.decode())
+            print("<<<<<<<<<<<<<<<<")
+            
+        except socket.error as e:
+            print("Socket error: %s", e)
+        finally:
+            conn.close()
+            self.close_connection()
         return
